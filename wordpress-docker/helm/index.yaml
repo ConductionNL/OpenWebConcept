@@ -3,13 +3,13 @@ entries:
   open-webconcept:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2021-05-18T10:03:34.660172+02:00"
+    created: "2021-05-18T10:06:55.2341428+02:00"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
-    digest: f9e89d400a12cad6c04d13c503ef902988db126b79d9194d2ac973180273fe45
+    digest: 5f645e87715bbff604570cb45899e103466f2170dc8049139e281ef288e43bd7
     home: https://openwebconcept.nl/
     icon: https://openwebconcept.nl/wp-content/themes/openwebconcept/assets/src/images/logo-dark.png
     name: open-webconcept
     urls:
     - open-webconcept-0.1.0.tgz
     version: 0.1.0
-generated: "2021-05-18T10:03:34.6571726+02:00"
+generated: "2021-05-18T10:06:55.2341428+02:00"

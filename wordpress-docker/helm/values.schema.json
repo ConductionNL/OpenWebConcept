@@ -1,0 +1,573 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "settings": {
+                "registryBase": "docker.io/conduction",
+                "name": "open-webconcept",
+                "pullPolicy": "Always",
+                "replicaCount": 1,
+                "env": "prod",
+                "subpath": "",
+                "domain": "zuid-drecht.nl"
+            },
+            "mysql": {
+                "port": 3306,
+                "name": "openweb",
+                "user": "openweb",
+                "password": "!changeMe!",
+                "rootPassword": "!changeMe!",
+                "volume": {
+                    "claimName": "openweb-database",
+                    "size": "8Gi"
+                }
+            },
+            "openweb": {
+                "volume": {
+                    "name": "openweb-data",
+                    "claimName": "openweb-data",
+                    "size": "10Gi"
+                }
+            },
+            "busybox": {
+                "image": "busybox",
+                "tag": "1.32"
+            },
+            "ingress": {
+                "annotations": null,
+                "tls": null,
+                "hosts": {
+                    "api": {
+                        "host": "example.com",
+                        "serviceName": "varnish"
+                    },
+                    "mercure": {
+                        "host": "mercure.example.com",
+                        "serviceName": "mercure"
+                    }
+                }
+            },
+            "resources": {}
+        }
+    ],
+    "required": [
+        "settings",
+        "mysql",
+        "openweb",
+        "busybox",
+        "ingress",
+        "resources"
+    ],
+    "properties": {
+        "settings": {
+            "$id": "#/properties/settings",
+            "type": "object",
+            "title": "The settings schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "registryBase": "docker.io/conduction",
+                    "name": "open-webconcept",
+                    "pullPolicy": "Always",
+                    "replicaCount": 1,
+                    "env": "prod",
+                    "subpath": "",
+                    "domain": "zuid-drecht.nl"
+                }
+            ],
+            "required": [
+                "registryBase",
+                "name",
+                "pullPolicy",
+                "replicaCount",
+                "env",
+                "subpath",
+                "domain"
+            ],
+            "properties": {
+                "registryBase": {
+                    "$id": "#/properties/settings/properties/registryBase",
+                    "type": "string",
+                    "title": "The registryBase schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "docker.io/conduction"
+                    ]
+                },
+                "name": {
+                    "$id": "#/properties/settings/properties/name",
+                    "type": "string",
+                    "title": "The name schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "open-webconcept"
+                    ]
+                },
+                "pullPolicy": {
+                    "$id": "#/properties/settings/properties/pullPolicy",
+                    "type": "string",
+                    "title": "The pullPolicy schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Always"
+                    ]
+                },
+                "replicaCount": {
+                    "$id": "#/properties/settings/properties/replicaCount",
+                    "type": "integer",
+                    "title": "The replicaCount schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1
+                    ]
+                },
+                "env": {
+                    "$id": "#/properties/settings/properties/env",
+                    "type": "string",
+                    "title": "The env schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "prod"
+                    ]
+                },
+                "subpath": {
+                    "$id": "#/properties/settings/properties/subpath",
+                    "type": "string",
+                    "title": "The subpath schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "domain": {
+                    "$id": "#/properties/settings/properties/domain",
+                    "type": "string",
+                    "title": "The domain schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "zuid-drecht.nl"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "mysql": {
+            "$id": "#/properties/mysql",
+            "type": "object",
+            "title": "The mysql schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "port": 3306,
+                    "name": "openweb",
+                    "user": "openweb",
+                    "password": "!changeMe!",
+                    "rootPassword": "!changeMe!",
+                    "volume": {
+                        "claimName": "openweb-database",
+                        "size": "8Gi"
+                    }
+                }
+            ],
+            "required": [
+                "port",
+                "name",
+                "user",
+                "password",
+                "rootPassword",
+                "volume"
+            ],
+            "properties": {
+                "port": {
+                    "$id": "#/properties/mysql/properties/port",
+                    "type": "integer",
+                    "title": "The port schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        3306
+                    ]
+                },
+                "name": {
+                    "$id": "#/properties/mysql/properties/name",
+                    "type": "string",
+                    "title": "The name schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "openweb"
+                    ]
+                },
+                "user": {
+                    "$id": "#/properties/mysql/properties/user",
+                    "type": "string",
+                    "title": "The user schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "openweb"
+                    ]
+                },
+                "password": {
+                    "$id": "#/properties/mysql/properties/password",
+                    "type": "string",
+                    "title": "The password schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "!changeMe!"
+                    ]
+                },
+                "rootPassword": {
+                    "$id": "#/properties/mysql/properties/rootPassword",
+                    "type": "string",
+                    "title": "The rootPassword schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "!changeMe!"
+                    ]
+                },
+                "volume": {
+                    "$id": "#/properties/mysql/properties/volume",
+                    "type": "object",
+                    "title": "The volume schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "claimName": "openweb-database",
+                            "size": "8Gi"
+                        }
+                    ],
+                    "required": [
+                        "claimName",
+                        "size"
+                    ],
+                    "properties": {
+                        "claimName": {
+                            "$id": "#/properties/mysql/properties/volume/properties/claimName",
+                            "type": "string",
+                            "title": "The claimName schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "openweb-database"
+                            ]
+                        },
+                        "size": {
+                            "$id": "#/properties/mysql/properties/volume/properties/size",
+                            "type": "string",
+                            "title": "The size schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "8Gi"
+                            ]
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true
+        },
+        "openweb": {
+            "$id": "#/properties/openweb",
+            "type": "object",
+            "title": "The openweb schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "volume": {
+                        "name": "openweb-data",
+                        "claimName": "openweb-data",
+                        "size": "10Gi"
+                    }
+                }
+            ],
+            "required": [
+                "volume"
+            ],
+            "properties": {
+                "volume": {
+                    "$id": "#/properties/openweb/properties/volume",
+                    "type": "object",
+                    "title": "The volume schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "name": "openweb-data",
+                            "claimName": "openweb-data",
+                            "size": "10Gi"
+                        }
+                    ],
+                    "required": [
+                        "name",
+                        "claimName",
+                        "size"
+                    ],
+                    "properties": {
+                        "name": {
+                            "$id": "#/properties/openweb/properties/volume/properties/name",
+                            "type": "string",
+                            "title": "The name schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "openweb-data"
+                            ]
+                        },
+                        "claimName": {
+                            "$id": "#/properties/openweb/properties/volume/properties/claimName",
+                            "type": "string",
+                            "title": "The claimName schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "openweb-data"
+                            ]
+                        },
+                        "size": {
+                            "$id": "#/properties/openweb/properties/volume/properties/size",
+                            "type": "string",
+                            "title": "The size schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "10Gi"
+                            ]
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true
+        },
+        "busybox": {
+            "$id": "#/properties/busybox",
+            "type": "object",
+            "title": "The busybox schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "image": "busybox",
+                    "tag": "1.32"
+                }
+            ],
+            "required": [
+                "image",
+                "tag"
+            ],
+            "properties": {
+                "image": {
+                    "$id": "#/properties/busybox/properties/image",
+                    "type": "string",
+                    "title": "The image schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "busybox"
+                    ]
+                },
+                "tag": {
+                    "$id": "#/properties/busybox/properties/tag",
+                    "type": "string",
+                    "title": "The tag schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1.32"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "ingress": {
+            "$id": "#/properties/ingress",
+            "type": "object",
+            "title": "The ingress schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "annotations": null,
+                    "tls": null,
+                    "hosts": {
+                        "api": {
+                            "host": "example.com",
+                            "serviceName": "varnish"
+                        },
+                        "mercure": {
+                            "host": "mercure.example.com",
+                            "serviceName": "mercure"
+                        }
+                    }
+                }
+            ],
+            "required": [
+                "annotations",
+                "tls",
+                "hosts"
+            ],
+            "properties": {
+                "annotations": {
+                    "$id": "#/properties/ingress/properties/annotations",
+                    "type": "null",
+                    "title": "The annotations schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": null,
+                    "examples": [
+                        null
+                    ]
+                },
+                "tls": {
+                    "$id": "#/properties/ingress/properties/tls",
+                    "type": "null",
+                    "title": "The tls schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": null,
+                    "examples": [
+                        null
+                    ]
+                },
+                "hosts": {
+                    "$id": "#/properties/ingress/properties/hosts",
+                    "type": "object",
+                    "title": "The hosts schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "api": {
+                                "host": "example.com",
+                                "serviceName": "varnish"
+                            },
+                            "mercure": {
+                                "host": "mercure.example.com",
+                                "serviceName": "mercure"
+                            }
+                        }
+                    ],
+                    "required": [
+                        "api",
+                        "mercure"
+                    ],
+                    "properties": {
+                        "api": {
+                            "$id": "#/properties/ingress/properties/hosts/properties/api",
+                            "type": "object",
+                            "title": "The api schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": {},
+                            "examples": [
+                                {
+                                    "host": "example.com",
+                                    "serviceName": "varnish"
+                                }
+                            ],
+                            "required": [
+                                "host",
+                                "serviceName"
+                            ],
+                            "properties": {
+                                "host": {
+                                    "$id": "#/properties/ingress/properties/hosts/properties/api/properties/host",
+                                    "type": "string",
+                                    "title": "The host schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "example.com"
+                                    ]
+                                },
+                                "serviceName": {
+                                    "$id": "#/properties/ingress/properties/hosts/properties/api/properties/serviceName",
+                                    "type": "string",
+                                    "title": "The serviceName schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "varnish"
+                                    ]
+                                }
+                            },
+                            "additionalProperties": true
+                        },
+                        "mercure": {
+                            "$id": "#/properties/ingress/properties/hosts/properties/mercure",
+                            "type": "object",
+                            "title": "The mercure schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": {},
+                            "examples": [
+                                {
+                                    "host": "mercure.example.com",
+                                    "serviceName": "mercure"
+                                }
+                            ],
+                            "required": [
+                                "host",
+                                "serviceName"
+                            ],
+                            "properties": {
+                                "host": {
+                                    "$id": "#/properties/ingress/properties/hosts/properties/mercure/properties/host",
+                                    "type": "string",
+                                    "title": "The host schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "mercure.example.com"
+                                    ]
+                                },
+                                "serviceName": {
+                                    "$id": "#/properties/ingress/properties/hosts/properties/mercure/properties/serviceName",
+                                    "type": "string",
+                                    "title": "The serviceName schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "mercure"
+                                    ]
+                                }
+                            },
+                            "additionalProperties": true
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true
+        },
+        "resources": {
+            "$id": "#/properties/resources",
+            "type": "object",
+            "title": "The resources schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

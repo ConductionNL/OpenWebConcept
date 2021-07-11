@@ -29,7 +29,7 @@ class GemPluginShortcodes
      */
     public function gem_chatbox_shortcode(): string
     {
-        return $this->shortcodeResult($type, $downloadButtons);
+        return '<div id="webchat"></div>';
     }
 
 }

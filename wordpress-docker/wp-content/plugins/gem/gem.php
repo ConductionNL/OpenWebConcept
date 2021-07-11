@@ -44,10 +44,33 @@ $autoloader = new Autoloader();
 $plugin = (new Plugin(__DIR__))->boot();
 
 /**
- * Start session on init when there is none.
+ * Begin execution of the plugin.
+ */
+function dependency_injection() {
+    wp_register_style('owc_gem_general', plugins_url('https://virtuele-gemeente-assistent.nl/static/css/widget-v0.11.7.css');
+    wp_register_style('owc_gem_local', plugins_url('https://mijn.virtuele-gemeente-assistent.nl/demodam/_styling');
+    wp_enqueue_style('owc_gem_general');
+    wp_enqueue_style('owc_gem_local');
+
+    // <script id="widget-script" src="https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js" data-municipality="Demodam"></script>
+
+    wp_register_script( 'owc_gem_webchat', plugins_url('https://virtuele-gemeente-assistent.nl/static/js/webchat-v0.11.7.js');
+    wp_register_script( 'owc_gem_widget', plugins_url('https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js');
+    wp_enqueue_script('owc_gem_webchat');
+    wp_enqueue_script('owc_gem_widget');
+}
+
+/**
+ * Initialise the plugin
  */
 add_action('init', function () {
+
+    // Start session on init when there is none.
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+
+    // Lets load the dependencies
+    dependency_injection();
+
 });

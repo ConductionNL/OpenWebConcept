@@ -12,7 +12,7 @@
  * Plugin Name:       DigiD
  * Plugin URI:        https://conduction.nl/digispoof
  * Description:       Een plugin voor het inlogen van gebruikers aan de hand van DigiD
- * Version:           0.0.1
+ * Version:           0.0.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Conduction

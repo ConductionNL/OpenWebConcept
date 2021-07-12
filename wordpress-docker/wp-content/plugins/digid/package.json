@@ -1,6 +1,6 @@
 {
   "name": "digid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DigiD plugin",
   "author": "Conduction.nl",
   "require" : {

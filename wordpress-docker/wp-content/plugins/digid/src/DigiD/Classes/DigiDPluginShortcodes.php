@@ -107,7 +107,14 @@ class DigiDPluginShortcodes
         if (isset($atts['style'])) {
             $button .= " style=\"" . $atts['style'] . "\"";
         }
-        $button .= "><a href=\"" . $url . "?" . http_build_query($query) . "\">Inloggen met DigiD</a></button>";
+        $button .= ">";
+        $ahref = "<a href=\"" . $url . "?" . http_build_query($query) . "\"";
+
+        if (isset($atts['ahrefstyle'])) {
+            $ahref .= " style=\"" . $atts['ahrefstyle'] . "\"";
+        }
+        $ahref .= " >Inloggen met DigiD</a>";
+        $button .= $ahref . "</button>";
 
         return $button;
     }

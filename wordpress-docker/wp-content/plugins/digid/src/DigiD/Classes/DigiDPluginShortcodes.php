@@ -75,9 +75,10 @@ class DigiDPluginShortcodes
     /**
      * Callback for shortcode [digid-inlog].
      *
-     * @return string
+     * @param array $atts Array with style or classes for button
+     * @return string Returns html button that links to digid
      */
-    public function digid_inlog_shortcode(): string
+    public function digid_inlog_shortcode(array $atts): string
     {
         $type = get_option('digid_type', '');
         $url = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
@@ -99,7 +100,16 @@ class DigiDPluginShortcodes
             return '<form action="' . $url . '"><input type="submit" value="Inloggen met DigiD"></form>';
         }
 
-        return '<button style="margin-right: 15px"><a href="' . $url . "?" . http_build_query($query) . '">Inloggen met DigiD</a></button>';
+        $button = "<button";
+        if (isset($atts['class'])) {
+            $button .= " class=\"" . $atts['class'] . "\"";
+        }
+        if (isset($atts['style'])) {
+            $button .= " style=\"" . $atts['style'] . "\"";
+        }
+        $button .= "><a href=\"" . $url . "?" . http_build_query($query) . "\">Inloggen met DigiD</a></button>";
+
+        return $button;
     }
 
 

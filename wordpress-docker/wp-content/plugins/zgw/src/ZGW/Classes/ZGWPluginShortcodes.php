@@ -21,33 +21,72 @@ class ZGWPluginShortcodes
     }
 
 
-
+//    /**
+//     * Callback for shortcode [zgw-casetable].
+//     *
+//     * @return string
+//     */
     /**
-     * Callback for shortcode [gw-casetable].
+     * Callback for shortcode [zgw-casetable].
      *
-     * @return string
+     * @param array $atts Holds properties that will be shown in the table, example shortcode [zgw-casetable identificatie="" status="" omschrijving="" ]
+     * @return string Returns table with cases
      */
-    public function zgw_casetable_shortcode(): string
+    public function zgw_casetable_shortcode(array $atts): string
     {
         $caseList = $this->getCases();
         $cases = $caseList['results'];
 
-       // var_dump($cases);
+        if (isset($atts)) {
+            $givenOptions = [];
+            foreach ($atts as $key => $att) {
+                $givenOptions[] = $key;
+            }
 
-        // Lets create a table
-        $caseRows = [];
-        foreach($cases as $case){
-            $caseRows[] = "<tr>
-                  <td>".$case['identificatie']."</td>
-                  <!--<td>".$case['status']."</td>>-->
-                  <!--<td>".$case['omschrijving']."</td>>-->
-                  <td>".$case['zaaktype']."</td>
-                  <td>".$case['startdatum']."</td>
-                  <td>".$case['einddatum']."</td>
+            // Get all possible options for table
+            $caseOptions = [];
+            foreach ($cases[0] as $key => $property) {
+                $caseOptions[$key] = $property;
+            }
+
+            // Lets create a table
+            $caseRows = [];
+            foreach ($cases as $case) {
+                $newCaseRow = "<tr>";
+                foreach ($givenOptions as $option) {
+                    if (isset($caseOptions[$option])) {
+                        $newCaseRow .= "<td>" . $case[$option] . "</td>";
+                    }
+                }
+                $newCaseRow .= "</tr>";
+                $caseRows[] = $newCaseRow;
+            }
+
+            $thead = "<thead><tr>";
+            foreach ($givenOptions as $option) {
+                $theadbody .= "<th>" . ucfirst($option) . "</th>";
+            }
+            $thead .= $theadbody . "</tr></thead>";
+
+            $tfoot = "<tfoot><tr>" . $theadbody . "</tr></tfoot>";
+
+
+            return "<table>" . $thead . "<tbody>" . implode("\n", $caseRows) . "</tbody>" . $tfoot . "</table>";
+
+
+        } else {
+            foreach ($cases as $case) {
+                $caseRows[] = "<tr>
+                  <td>" . $case['identificatie'] . "</td>
+                  <!--<td>" . $case['status'] . "</td>>-->
+                  <!--<td>" . $case['omschrijving'] . "</td>>-->
+                  <td>" . $case['zaaktype'] . "</td>
+                  <td>" . $case['startdatum'] . "</td>
+                  <td>" . $case['einddatum'] . "</td>
                 </tr";
-        }
+            }
 
-        return "<table>
+            return "<table>
                   <thead>
                     <tr>
                       <th>Identificatie</th>
@@ -59,7 +98,7 @@ class ZGWPluginShortcodes
                     </tr>
                   </thead>
                   <tbody>
-                    ".implode("\n",$caseRows)."
+                    " . implode("\n", $caseRows) . "
                   </tbody>
                   <tfoot>
                     <tr>
@@ -72,6 +111,8 @@ class ZGWPluginShortcodes
                     </tr>
                   </tfoot>
                 </table>";
+
+        }
     }
 
 
@@ -90,11 +131,10 @@ class ZGWPluginShortcodes
         }
 
         // Set the user reprecentation
-        if($current_user = wp_get_current_user()){
-            $userId = esc_html( $current_user->ID );
-            $userRepresentation =  esc_html( $current_user->display_name );
-        }
-        else{
+        if ($current_user = wp_get_current_user()) {
+            $userId = esc_html($current_user->ID);
+            $userRepresentation = esc_html($current_user->display_name);
+        } else {
             $userId = '';
             $userRepresentation = '';
         }
@@ -113,13 +153,13 @@ class ZGWPluginShortcodes
         $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
 
         // Create Signature Hash
-        $signature = hash_hmac('sha256', $base64UrlHeader.'.'.$base64UrlPayload, $clientSecret, true);
+        $signature = hash_hmac('sha256', $base64UrlHeader . '.' . $base64UrlPayload, $clientSecret, true);
 
         // Encode Signature to Base64Url String
         $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
 
         // Return JWT
-        return $base64UrlHeader.'.'.$base64UrlPayload.'.'.$base64UrlSignature;
+        return $base64UrlHeader . '.' . $base64UrlPayload . '.' . $base64UrlSignature;
 
     }
 
@@ -130,8 +170,8 @@ class ZGWPluginShortcodes
      */
     public function getCases()
     {
-        $zakenUrl      = get_option('zgw_api_zaken_url', '');
-        $catalogusUrl     = get_option('zgw_api_catalogus_url', '');
+        $zakenUrl = get_option('zgw_api_zaken_url', '');
+        $catalogusUrl = get_option('zgw_api_catalogus_url', '');
         $key = $this->createJWT();
 
         if (empty($zakenUrl) || empty($catalogusUrl)) {
@@ -141,14 +181,14 @@ class ZGWPluginShortcodes
         // unset any existing session.
         unset($_SESSION['certificate']);
 
-        $data = wp_remote_post($zakenUrl.'/zaken', [
-            'headers'     => [
+        $data = wp_remote_post($zakenUrl . '/zaken', [
+            'headers' => [
                 'Content-Type' => 'application/json; charset=utf-8',
-                'Accept-Crs'  => 'EPSG:4326',
+                'Accept-Crs' => 'EPSG:4326',
                 'Content-Crs' => 'EPSG:4326',
-                'Authorization' => 'Bearer '.$key],
-            'body'        => json_encode($data),
-            'method'      => 'GET',
+                'Authorization' => 'Bearer ' . $key],
+            'body' => json_encode($data),
+            'method' => 'GET',
             'data_format' => 'body',
         ]);
 
@@ -165,7 +205,7 @@ class ZGWPluginShortcodes
         $decodedBody = json_decode($responseBody, true);
 
         // Lets check for errors
-        if(!array_key_exists('status', $decodedBody) || !preg_match("/20[\d]/g", $decodedBody['status'])){
+        if (!array_key_exists('status', $decodedBody) || !preg_match("/20[\d]/g", $decodedBody['status'])) {
             //var_dump($decodedBody);
         }
 

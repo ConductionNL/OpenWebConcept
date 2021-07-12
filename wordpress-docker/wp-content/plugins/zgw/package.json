@@ -1,0 +1,10 @@
+{
+  "name": "Zaakgericht werken",
+  "version": "0.0.2",
+  "description": "Plugin voor het weergeven van aan een BSN of KVK gerelateerde zaken",
+  "author": "Open Webconcept",
+  "require" : {
+    "php": "^7.4.0",
+    "guzzlehttp/guzzle": "^6.3"
+    }
+  }

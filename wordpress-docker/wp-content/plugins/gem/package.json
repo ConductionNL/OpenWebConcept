@@ -1,0 +1,10 @@
+{
+  "name": "gem",
+  "version": "1.0.8",
+  "description": "Gemeentenlijke chatbot plugin",
+  "author": "Open Webconcept",
+  "require" : {
+    "php": "^7.4.0",
+    "guzzlehttp/guzzle": "^6.3"
+    }
+  }

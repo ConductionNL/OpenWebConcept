@@ -23,8 +23,8 @@ class Plugin
      */
     public function boot(): void
     {
-        new \OWC\Waardepapieren\Classes\WaardepapierenPluginShortcodes($this);
-        new \OWC\Waardepapieren\Classes\WaardepapierenPluginAdminSettings();
+        new \OWC\Gem\Classes\GemPluginShortcodes($this);
+        new \OWC\Gem\Classes\GemPluginAdminSettings();
     }
 
     /**

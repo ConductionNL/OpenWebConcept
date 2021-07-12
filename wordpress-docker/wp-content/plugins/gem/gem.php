@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Waardepapieren
+ * Gem
  *
- * @package           WaardenpapierenPlugin
- * @author            Conduction
- * @copyright         2020 Conduction
+ * @package           GemPlugin
+ * @author            Open Webconcept
+ * @copyright         2021 Open Webconcept
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       Waardepapieren
- * Plugin URI:        https://conduction.nl/waardepapieren
- * Description:       De waardepapieren plugin
- * Version:           1.0.8
+ * Plugin Name:       Gem
+ * Plugin URI:        https://conduction.nl/gem
+ * Description:       Dé gemeentenlijke chatbot
+ * Version:           0.0.1
  * Requires at least: 5.2
  * Requires PHP:      7.2
- * Author:            Conduction
+ * Author:            Open Webconcept
  * Author URI:        https://conduction.nl
  * Text Domain:       plugin-slug
  * License:           GPL v2 or later
@@ -47,17 +47,19 @@ $plugin = (new Plugin(__DIR__))->boot();
  * Begin execution of the plugin.
  */
 function dependency_injection() {
-    wp_register_style('owc_gem_general', plugins_url('https://virtuele-gemeente-assistent.nl/static/css/widget-v0.11.7.css');
-    wp_register_style('owc_gem_local', plugins_url('https://mijn.virtuele-gemeente-assistent.nl/demodam/_styling');
+    wp_register_style('owc_gem_general', 'https://virtuele-gemeente-assistent.nl/static/css/widget-v0.11.7.css');
+    wp_register_style('owc_gem_local', 'https://mijn.virtuele-gemeente-assistent.nl/demodam/_styling');
     wp_enqueue_style('owc_gem_general');
     wp_enqueue_style('owc_gem_local');
 
     // <script id="widget-script" src="https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js" data-municipality="Demodam"></script>
 
-    wp_register_script( 'owc_gem_webchat', plugins_url('https://virtuele-gemeente-assistent.nl/static/js/webchat-v0.11.7.js');
-    wp_register_script( 'owc_gem_widget', plugins_url('https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js');
+    /*
+    wp_register_script( 'owc_gem_webchat', 'https://virtuele-gemeente-assistent.nl/static/js/webchat-v0.11.7.js',[],'0.11.7.js',true );
+    wp_register_script( 'owc_gem_widget', 'https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js',['owc_gem_webchat'],'0.11.7.js',true);
     wp_enqueue_script('owc_gem_webchat');
     wp_enqueue_script('owc_gem_widget');
+    */
 }
 
 /**

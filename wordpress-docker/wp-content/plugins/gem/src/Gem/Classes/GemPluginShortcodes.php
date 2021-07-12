@@ -29,7 +29,13 @@ class GemPluginShortcodes
      */
     public function gem_chatbox_shortcode(): string
     {
-        return '<div id="webchat"></div>';
+        return '<div id="webchat"></div>
+        
+        <!-- widget library -->
+        <script src="https://virtuele-gemeente-assistent.nl/static/js/webchat-v0.11.7.js"></script>
+         
+        <!--- Widget script Gem  -->
+        <script id="widget-script" src="https://virtuele-gemeente-assistent.nl/static/js/widget-v0.11.7.js" data-municipality="Demodam"></script>';
     }
 
 }

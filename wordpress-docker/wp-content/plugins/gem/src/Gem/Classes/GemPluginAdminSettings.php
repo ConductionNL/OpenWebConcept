@@ -45,7 +45,7 @@ class GemPluginAdminSettings
     /**
      * The settings menu item
      */
-    public function waardepapieren_options_page()
+    public function gem_options_page()
     {
         add_submenu_page(
             'options-general.php',
@@ -68,7 +68,7 @@ class GemPluginAdminSettings
         // register a new section in the "reading" page
         add_settings_section(
             'default', // id
-            'API  Configuration', // title
+            'Configuration', // title
             [$this, 'wporg_settings_section_callback'], // callback
             'gem_configuration' // page
         );

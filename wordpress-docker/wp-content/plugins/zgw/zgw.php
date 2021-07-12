@@ -12,7 +12,7 @@
  * Plugin Name:       ZGW
  * Plugin URI:        https://conduction.nl/ZGW
  * Description:       Plugin voor het weergeven van aan een BSN of KVK gerelateerde zaken
- * Version:           0.0.1
+ * Version:           0.0.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Open Webconcept

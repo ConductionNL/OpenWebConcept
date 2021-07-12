@@ -63,7 +63,10 @@ class ZGWPluginAdminSettings
     public function wporg_settings_init()
     {
         // register a new setting for "reading" page
-        register_setting('zgw_options', 'zgw_api_zakenurl');
+        register_setting('zgw_options', 'zgw_api_zaken_url');
+        register_setting('zgw_options', 'zgw_api_catalogus_url');
+        register_setting('zgw_options', 'zgw_api_client_id');
+        register_setting('zgw_options', 'zgw_api_client_secret');
 
         // register a new section in the "reading" page
         add_settings_section(
@@ -76,7 +79,7 @@ class ZGWPluginAdminSettings
         // register a new field in the "wporg_settings_section" section, inside the "reading" page
         add_settings_field(
             'zgw_api_zaken_url',
-            'Url of the zaken API',
+            'Url of the ca API',
             [$this, 'zgw_api_zaken_url_field_callback'],
             'zgw_configuration',
             'default'
@@ -85,7 +88,7 @@ class ZGWPluginAdminSettings
         // register a new field in the "wporg_settings_section" section, inside the "reading" page
         add_settings_field(
             'zgw_api_catalogus_url',
-            'Url of the zaken API',
+            'Url of the catalogus API',
             [$this, 'zgw_api_catalogus_url_field_callback'],
             'zgw_configuration',
             'default'
@@ -132,10 +135,10 @@ class ZGWPluginAdminSettings
     }
 
 
-    public function zgw_api_zaken_url_field_callback()
+    public function zgw_api_catalogus_url_field_callback()
     {
         // get the value of the setting we've registered with register_setting()
-        $setting = get_option('zgw_api_catalogus_url_field_callback');
+        $setting = get_option('zgw_api_catalogus_url');
         // output the field
         ?>
         <input type="text" name="zgw_api_catalogus_url" value="<?php echo isset($setting) ? esc_attr($setting) : ''; ?>">

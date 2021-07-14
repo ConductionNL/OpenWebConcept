@@ -17,7 +17,9 @@ class DigiDPluginShortcodes
 
     private function add_shortcode(): void
     {
-        add_shortcode('digid-inlog', [$this, 'digid_inlog_shortcode']);
+        add_shortcode('digid-login', [$this, 'digid_login_shortcode']);
+        add_shortcode('digid-return', [$this, 'digid_return_shortcode']);
+        add_shortcode('digid-logout', [$this, 'digid_logout_shortcode']);
     }
 
 
@@ -73,12 +75,12 @@ class DigiDPluginShortcodes
 
 
     /**
-     * Callback for shortcode [digid-inlog].
+     * Callback for shortcode [digid-login].
      *
      * @param array $atts Array with style or classes for button
      * @return string Returns html button that links to digid
      */
-    public function digid_inlog_shortcode(array $atts): string
+    public function digid_login_shortcode(array $atts): string
     {
         $type = get_option('digid_type', '');
         $url = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
@@ -97,7 +99,7 @@ class DigiDPluginShortcodes
         //String signature = getQueryParam("Signature");
 
         if ($type == "form") {
-            return '<form action="' . $url . '"><input type="submit" value="Inloggen met DigiD"></form>';
+            return '<form action="' . $url . '"><input type="submit" value="Login with DigiD"></form>';
         }
 
         $button = "<button";
@@ -119,19 +121,87 @@ class DigiDPluginShortcodes
         return $button;
     }
 
+    /**
+     * Callback for shortcode [digid-return]. This short code handles the return of a user from digid
+     *
+     * @param array $atts Array with style or classes for button
+     * @return string Returns html button that links to digid
+     */
+    public function digid_login_shortcode(array $atts): string
+    {
+        $digidUrl = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+        $haalcentraalUrl = get_option('digid_haalcentraal', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+        $haalcentraalKey = get_option('digid_haalcentraal_key', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+
+        // Get query parameter SAMLArt from user (contains the user id for the saml art token)
+        $SAMLArt = // howver wordpress passes quer paramters
+
+        // Get the artifact from DigiD
+        $data = wp_remote_post($digidUrl . '/artifact', [
+            'headers' => [
+                'Content-Type' => 'application/json; charset=utf-8',
+            'method' => 'GET',
+        ]);
+
+        if (is_wp_error($data)) {
+            return;
+        }
+
+        $artifact = wp_remote_retrieve_body($data);
+
+        // Get the BSN from the soap envelope
+        $artifact = new SimpleXMLElement($artifact);
+        $bsn = $artifact->path->to->bsn;
+
+        // Get the person from haal centraal
+        $data = wp_remote_post($haalcentraalUrl . '/ingesvrevenpersonen/'.$bsn, [
+            'headers' => [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Accept-Crs' => 'EPSG:4326',
+                'Content-Crs' => 'EPSG:4326',
+                'Authorization' => 'Bearer ' . $haalcentraalKey],
+            'method' => 'GET',
+        ]);
+
+        if (is_wp_error($data)) {
+            return;
+        }
+
+        $person = json_decode(wp_remote_retrieve_body($data));
+
+        // Use the person to login a user with worpress
+
+        // However wordpress logins users (mind you you dont have an email)
+
+
+    }
+
 
     /**
-     * Callback for shortcode [digid-inlog].
+     * Callback for shortcode [digid-logout]. This short codes handels a logout actoin form digig
+     *
+     * @param array $atts Array with style or classes for button
+     * @return string Returns html button that links to digid
+     */
+    public function digid_logout_shortcode(array $atts): string
+    {
+    }
+
+
+    /**
+     * Creates a saml token for a login request.
      *
      * @return string
      */
     public function getSAMLRequest(): string
     {
+        $loginPath = get_option('digid_loginpath', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+
         return '<?xml version="1.0" encoding="UTF-8"?>
             <samlp:AuthnRequest
             xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
             xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
-            ID="_1330416073" Version="2.0" IssueInstant="2012-02-28T09:01:13Z" AssertionConsumerServiceIndex="0" AssertionConsumerServiceURL="'.get_bloginfo('url').'" ProviderName="'.get_bloginfo('name').'">
+            ID="_1330416073" Version="2.0" IssueInstant="2012-02-28T09:01:13Z" AssertionConsumerServiceIndex="0" AssertionConsumerServiceURL="'.get_bloginfo('url').'/'.$loginPath.'" ProviderName="'.get_bloginfo('name').'">
                 <saml:Issuer>'.get_bloginfo('url').'</saml:Issuer>
                 <samlp:RequestedAuthnContext Comparison="minimum">
                     <saml:AuthnContextClassRef>

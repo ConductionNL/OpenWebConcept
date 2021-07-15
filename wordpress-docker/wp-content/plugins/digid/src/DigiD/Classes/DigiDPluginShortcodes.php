@@ -108,7 +108,7 @@ class DigiDPluginShortcodes
             "Signature" => ""
         ];
         if (isset($atts['returnpath'])) {
-            $atts['returnpath'] = '/' . $atts['returnpath'];
+            $atts['returnpath'] = '/digid';
             $query['SAMLRequest'] = $this->encode($this->getSAMLRequest($atts['returnpath']));
         } else {
             $query['SAMLRequest'] = $this->encode($this->getSAMLRequest());
@@ -145,11 +145,10 @@ class DigiDPluginShortcodes
     /**
      * Callback for shortcode [digid-return]. This short code handles the return of a user from digid
      *
-     * @param array $atts Array with style or classes for button
      * @return string Returns html button that links to digid
      * @throws \Exception
      */
-    public function digid_login_shortcode($atts): string
+    public function digid_login_shortcode(): string
     {
         $digidUrl = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
         $haalcentraalKey = get_option('digid_brpkey', 'b3BlbndlYi1jb25jZXB0OmRlbW9kYW0=');
@@ -157,7 +156,7 @@ class DigiDPluginShortcodes
 
 
         // If no key set in settings return to home page
-        if (empty(get_option('digid_brpkey')) && empty(get_option('digid_brplocation'))) {
+        if (empty($haalcentraalKey) && empty($haalcentraalUrl)) {
             header("Location: " . get_bloginfo('wpurl'));
             exit;
         }

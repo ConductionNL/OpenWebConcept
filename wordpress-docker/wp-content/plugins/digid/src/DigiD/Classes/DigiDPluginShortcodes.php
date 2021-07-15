@@ -156,6 +156,8 @@ class DigiDPluginShortcodes
     public function digid_login_shortcode($atts): string
     {
         $digidUrl = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+        $haalcentraalKey = get_option('digid_brpkey', 'b3BlbndlYi1jb25jZXB0OmRlbW9kYW0=');
+        $haalcentraalUrl = get_option('digid_brplocation', 'https://vrij-brp.demodam.nl/haal-centraal-brp-bevragen/api/v1.3/ingeschrevenpersonen');
 
 
         // If no key set in settings return to home page

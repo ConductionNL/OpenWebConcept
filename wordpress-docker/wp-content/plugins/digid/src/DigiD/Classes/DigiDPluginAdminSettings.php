@@ -65,8 +65,8 @@ class DigiDPluginAdminSettings
         register_setting('digid_options', 'digid_domain',['type'=>'string','description'=>'The DigiD domain to use','default'=>'https://digispoof.demodam.nl']);
         register_setting('digid_options', 'digid_certificate',['type'=>'string','description'=>'The certicate used to login to digispoof','default'=>'']);
         register_setting('digid_options', 'digid_type',['type'=>'string','description'=>'The login method used for DigiD (iether url or form)','default'=>'url']);
-        register_setting('digid_options', 'digid_brpkey',['type'=>'string','description'=>'The key used to retrieve a brp person', 'default'=>'']);
-        register_setting('digid_options', 'digid_brplocation',['type'=>'string','description'=>'The url used to retrieve a brp person', 'default'=>'']);
+        register_setting('digid_options', 'digid_brpkey',['type'=>'string','description'=>'The key used to retrieve a brp person', 'default'=>'b3BlbndlYi1jb25jZXB0OmRlbW9kYW0=']);
+        register_setting('digid_options', 'digid_brplocation',['type'=>'string','description'=>'The url used to retrieve a brp person', 'default'=>'https://vrij-brp.demodam.nl/haal-centraal-brp-bevragen/api/v1.3/ingeschrevenpersonen']);
 
         // register a new section in the "reading" page
         add_settings_section(

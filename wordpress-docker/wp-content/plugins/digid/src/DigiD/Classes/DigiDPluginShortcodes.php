@@ -14,9 +14,6 @@ class DigiDPluginShortcodes
     {
         ob_clean();
         ob_start();
-        if (!session_id()) {
-            session_start();
-        }
         $this->plugin = $plugin;
         $this->add_shortcode();
         // Add query param to wp so it is usable
@@ -96,12 +93,16 @@ class DigiDPluginShortcodes
      */
     public function digid_button_shortcode($atts): string
     {
+        if (empty(get_option('digid_brpkey')) || empty(get_option('digid_brplocation'))) {
+            return 'DigiD plugin important setting(s) not set!';
+        }
+
         $type = get_option('digid_type', '');
         $url = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
         $type = get_option('digid_certificate', '');
 
         if (isset($_SESSION['username'])) {
-            return  $_SESSION['username'];
+            return $_SESSION['username'];
         }
 
         //get params from query string
@@ -155,8 +156,16 @@ class DigiDPluginShortcodes
     public function digid_login_shortcode($atts): string
     {
         $digidUrl = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
-        $haalcentraalUrl = get_option('digid_haalcentraal', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
-        $haalcentraalKey = get_option('digid_haalcentraal_key', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
+
+
+        // If no key set in settings return to home page
+        if (!empty(get_option('digid_brpkey')) && !empty(get_option('digid_brplocation'))) {
+            $haalcentraalKey = get_option('digid_brpkey');
+            $haalcentraalUrl = get_option('digid_brplocation');
+        } else {
+            header("Location: " . get_bloginfo('wpurl'));
+            exit;
+        }
 
         // Get query parameter SAMLArt from user (contains the user id for the saml art token)
         if (!empty(get_query_var('SAMLArt'))) {
@@ -197,7 +206,7 @@ class DigiDPluginShortcodes
             $bsn = explode(':', $returnedXml->children('http://schemas.xmlsoap.org/soap/envelope/')->children('urn:oasis:names:tc:SAML:2.0:protocol')->ArtifactResponse->Response->children('urn:oasis:names:tc:SAML:2.0:assertion')->Subject->NameID)[1];
 
             // Get the person from haal centraal
-            $data = wp_remote_post('https://vrij-brp.demodam.nl/haal-centraal-brp-bevragen/api/v1.3' . '/ingeschrevenpersonen/' . $bsn, [
+            $data = wp_remote_post($haalcentraalUrl . '/' . $bsn, [
                 'headers' => [
                     'Content-Type' => 'application/json; charset=utf-8',
                     'Accept-Crs' => 'EPSG:4326',

@@ -80,7 +80,6 @@ class DigiDPluginShortcodes
 
     function encode($string)
     {
-
         $string = base64_encode(gzdeflate(utf8_encode($string)));
 
         $entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
@@ -203,7 +202,7 @@ class DigiDPluginShortcodes
                     'Content-Type' => 'application/json; charset=utf-8',
                     'Accept-Crs' => 'EPSG:4326',
                     'Content-Crs' => 'EPSG:4326',
-                    'Authorization' => 'Basic ' . 'b3BlbndlYi1jb25jZXB0OmRlbW9kYW0='],
+                    'Authorization' => 'Basic ' . $haalcentraalKey],
                 'method' => 'GET',
             ]);
             if (is_wp_error($data)) {

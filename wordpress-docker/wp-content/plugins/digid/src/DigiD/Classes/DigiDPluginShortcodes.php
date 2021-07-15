@@ -93,10 +93,6 @@ class DigiDPluginShortcodes
      */
     public function digid_button_shortcode($atts): string
     {
-        if (empty(get_option('digid_brpkey')) || empty(get_option('digid_brplocation'))) {
-            return 'DigiD plugin important setting(s) not set!';
-        }
-
         $type = get_option('digid_type', '');
         $url = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
         $type = get_option('digid_certificate', '');
@@ -161,10 +157,7 @@ class DigiDPluginShortcodes
 
 
         // If no key set in settings return to home page
-        if (!empty(get_option('digid_brpkey')) && !empty(get_option('digid_brplocation'))) {
-            $haalcentraalKey = get_option('digid_brpkey');
-            $haalcentraalUrl = get_option('digid_brplocation');
-        } else {
+        if (empty(get_option('digid_brpkey')) && empty(get_option('digid_brplocation'))) {
             header("Location: " . get_bloginfo('wpurl'));
             exit;
         }

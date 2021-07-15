@@ -97,8 +97,8 @@ class DigiDPluginShortcodes
         $url = get_option('digid_domain', 'https://digispoof.demodam.nl'); /*@todo why doesn't this pick the propper value */
         $type = get_option('digid_certificate', '');
 
-        if (isset($_SESSION['username'])) {
-            return $_SESSION['username'];
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user']['naam'];
         }
 
         //get params from query string
@@ -215,8 +215,15 @@ class DigiDPluginShortcodes
 
             // Use the person to login a user with worpress
             $person = json_decode($data['body'], true);
+            $user['bsn'] = $person['burgerservicenummer'];
+            $user['aNummer'] = $person['aNummer'];
+            $user['aanschrijfwijze'] = $person['naam']['aanschrijfwijze'];
+            $user['naam'] = $person['naam']['voornamen'];
+            $user['geslacht'] = $person['geslachtsaanduiding'];
+            $user['leeftijd'] = $person['leeftijd'];
+            $user['geboortedatum'] = $person['geboorte']['datum'];
             // However wordpress logins users (mind you you dont have an email)
-            $_SESSION['username'] = $person['naam']['aanschrijfwijze'];
+            $_SESSION['user'] = $user;
             header("Location: " . get_bloginfo('wpurl'));
             exit;
         }

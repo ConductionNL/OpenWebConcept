@@ -24,6 +24,7 @@ class Plugin
     public function boot(): void
     {
         new \OWC\DigiD\Classes\DigiDPluginShortcodes($this);
+        new \OWC\DigiD\Classes\DigiDPluginEndpoints($this);
         new \OWC\DigiD\Classes\DigiDPluginAdminSettings();
     }
 

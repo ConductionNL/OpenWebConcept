@@ -98,8 +98,18 @@ class DigiDPluginShortcodes
         $type = get_option('digid_certificate', '');
 
         if (isset($_SESSION['user'])) {
-            return $_SESSION['user']['naam'];
+            $usernameSpan = "<span ";
+            if(isset($atts['usernameclass'])) {
+                $usernameSpan .= "class=\"" . $atts['usernameclass'] . "\" ";
+            }
+            if(isset($atts['usernamestyle'])) {
+                $usernameSpan .= "style=\"" . $atts['usernamestyle'] . "\" ";
+            }
+            $usernameSpan .= ">" . $_SESSION['user']['naam'] . "</span>";
+
+            return $usernameSpan;
         }
+
 
         //get params from query string
         $query = [
@@ -107,12 +117,9 @@ class DigiDPluginShortcodes
             "SigAlg" => "",
             "Signature" => ""
         ];
-        if (isset($atts['returnpath'])) {
-            $atts['returnpath'] = '/digid';
-            $query['SAMLRequest'] = $this->encode($this->getSAMLRequest($atts['returnpath']));
-        } else {
-            $query['SAMLRequest'] = $this->encode($this->getSAMLRequest());
-        }
+
+        $atts['returnpath'] = '/digid';
+        $query['SAMLRequest'] = $this->encode($this->getSAMLRequest($atts['returnpath']));
 
         // String samlrequest = getQueryParam("SAMLRequest");
         //String relaystate = getQueryParam("RelayState");
